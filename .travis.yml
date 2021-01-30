@@ -1,0 +1,10 @@
+language: generic
+sudo: required # we need superuser permissions, in order to execute this build
+services: # we need this services pre installed for build
+  - docker
+
+before_install: # series of commands that get executed before tests run
+  - docker build -t "docker-react:dev" -f dockerfiles/Dockerfile.dev .
+
+script: # a script that will run after before_install finished with successfull exit code
+  - docker run -e CI=true "docker-react:dev" npm run test
